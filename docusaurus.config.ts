@@ -8,7 +8,7 @@ const config: Config = {
   favicon: 'img/favicon.ico',
 
   url: 'https://xplurdata.io',
-  baseUrl: '/docs/',
+  baseUrl: '/xddocs/',
 
   organizationName: 'xplurdata',
   projectName: 'xplurdata',
