@@ -1,0 +1,71 @@
+---
+id: introduction
+title: Introduction
+sidebar_position: 1
+slug: /
+---
+
+> **Production Ready · OpenTelemetry Native**
+
+# Full Observability. Zero Vendor Lock-in.
+
+XplurData is a self-hosted, Docker-based observability platform built for teams who want full control over their telemetry — no per-seat pricing, no data leaving your infrastructure.
+
+## One-line Install
+
+```bash
+# One command — full stack, no cloud required
+$ bash -c "$(curl -fsSL \
+    https://raw.githubusercontent.com/xd-internal/oss-stack/main/install.sh)"
+```
+
+**Terminal output:**
+
+```text
+╔═══════════════════════════════════════════════════╗
+║       XD-oss-stack Installer v1.0.0              ║
+╚═══════════════════════════════════════════════════╝
+
+▶  Checking system requirements
+✓  CPU: 8 cores       ✓  RAM: 16 GB
+✓  Disk: 120 GB free  ✓  Ports: 80, 4318 available
+
+▶  Pulling Docker images
+✓  Doris Frontend     ready
+✓  Doris Backend      ready
+✓  OTel Collector     ready
+✓  Application        ready
+
+╔═══════════════════════════════════════════════════╗
+║  ✓  Installation Complete!                       ║
+║     Happy Xpluring your data!                    ║
+╚═══════════════════════════════════════════════════╝
+```
+
+## How It Works
+
+| | |
+|---|---|
+| ⚡ **Ingest** | Receive logs, traces and metrics from any service via OpenTelemetry OTLP/HTTP on port 4318. |
+| 🗄 **Store** | Apache Doris v4.0.4 — columnar analytical database purpose-built for telemetry at scale. |
+| 🔍 **Explore** | XD-API + React UI with full-text search, filtering, and real-time queries at port 80. |
+| 🐳 **Deploy** | 4 Docker containers. One install command. Runs on Linux, macOS or Windows in under 5 minutes. |
+
+## Explore the Docs
+
+| # | Page | Description |
+|---|---|---|
+| **01** | [Quick Install](quick-install) | Install the full stack with one command on Linux, macOS, or Windows. |
+| **02** | [Architecture](architecture) | How the four containers work together. Includes the full system diagram. |
+| **03** | [Sending Logs](sending-logs) | Use telemetrygen, Python SDK or any OTel-compatible SDK to ship data. |
+| **04** | [Management](management) | Check status, stream logs, update, restart or fully uninstall the stack. |
+| **05** | [Troubleshooting](troubleshooting) | Common issues and how to fix them — startup failures, missing data and more. |
+
+## Access After Install
+
+After the ~3–5 minute first boot, your stack is live:
+
+| Service | URL | Credentials |
+|---|---|---|
+| Web UI | `http://<your-ip>` | `admin / admin` |
+| OTLP HTTP | `http://<your-ip>:4318` | `—` |

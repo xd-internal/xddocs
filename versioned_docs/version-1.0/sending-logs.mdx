@@ -1,0 +1,126 @@
+---
+id: sending-logs
+title: Sending Logs
+sidebar_position: 4
+slug: /sending-logs
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+> Ship telemetry from any language or tool to XplurData.
+
+
+### SDK Examples
+
+<Tabs>
+  <TabItem value="python" label="Python">
+
+```python
+pip install opentelemetry-sdk opentelemetry-exporter-otlp
+
+# instrument.py
+from opentelemetry import trace
+from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+from opentelemetry.sdk.trace.export import BatchSpanProcessor
+
+provider = TracerProvider()
+exporter = OTLPSpanExporter(
+    endpoint="http://`<YOUR_HOST>`:4318/v1/traces"
+)
+provider.add_span_processor(BatchSpanProcessor(exporter))
+trace.set_tracer_provider(provider)
+
+tracer = trace.get_tracer("my-service")
+with tracer.start_as_current_span("my-operation"):
+    print("Hello, XplurData!")
+```
+
+  </TabItem>
+  <TabItem value="node-js" label="Node.js">
+
+```javascript
+npm install @opentelemetry/sdk-node @opentelemetry/exporter-trace-otlp-http
+
+// tracing.js
+const { NodeSDK } = require('@opentelemetry/sdk-node')
+const { OTLPTraceExporter } = require('@opentelemetry/exporter-trace-otlp-http')
+
+const sdk = new NodeSDK({
+  serviceName: 'my-service',
+  traceExporter: new OTLPTraceExporter({
+    url: 'http://`<YOUR_HOST>`:4318/v1/traces',
+  }),
+})
+sdk.start()
+```
+
+  </TabItem>
+  <TabItem value="java" label="Java">
+
+```bash
+# Download the Java agent (zero-code instrumentation)
+wget https://github.com/open-telemetry/opentelemetry-java-instrumentation\
+  /releases/latest/download/opentelemetry-javaagent.jar
+
+# Run your app with the agent
+java -javaagent:opentelemetry-javaagent.jar \
+  -Dotel.service.name=my-service \
+  -Dotel.exporter.otlp.endpoint=http://`<YOUR_HOST>`:4318 \
+  -jar app.jar
+```
+
+  </TabItem>
+  <TabItem value="go" label="Go">
+
+```go
+go get go.opentelemetry.io/otel \
+       go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp
+
+// main.go
+exp, _ := otlptracehttp.New(ctx,
+    otlptracehttp.WithEndpoint("`<YOUR_HOST>`:4318"),
+    otlptracehttp.WithInsecure(),
+)
+tp := trace.NewTracerProvider(
+    trace.WithBatcher(exp),
+    trace.WithResource(resource.NewWithAttributes(
+        semconv.SchemaURL,
+        semconv.ServiceNameKey.String("my-service"),
+    )),
+)
+otel.SetTracerProvider(tp)
+```
+
+  </TabItem>
+  <TabItem value="telemetrygen" label="telemetrygen">
+
+```bash
+# Install telemetrygen
+go install github.com/open-telemetry/opentelemetry-collector-contrib/cmd/telemetrygen@latest
+
+# Send 1000 log records
+telemetrygen logs \
+  --otlp-endpoint `<YOUR_HOST>`:4318 \
+  --otlp-insecure \
+  --duration 10s \
+  --rate 100
+
+# Send traces
+telemetrygen traces \
+  --otlp-endpoint `<YOUR_HOST>`:4318 \
+  --otlp-insecure \
+  --duration 10s
+```
+
+  </TabItem>
+</Tabs>
+
+
+:::info
+
+Replace `<YOUR_HOST>` with your server's IP address or hostname. Use port 4318 for HTTP and 4317 for gRPC.
+
+:::
+

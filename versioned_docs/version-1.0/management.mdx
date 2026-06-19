@@ -1,0 +1,72 @@
+---
+id: management
+title: Management
+sidebar_position: 5
+slug: /management
+---
+
+> Day-to-day operations for your XplurData stack.
+
+
+### Check Stack Status
+
+```bash title="Check Stack Status"
+docker compose ps
+
+# Expected output:
+# NAME              STATUS         PORTS
+# doris-fe          Up 2 hours     0.0.0.0:9030->9030/tcp
+# doris-be          Up 2 hours
+# otel-collector    Up 2 hours     0.0.0.0:4318->4318/tcp
+# xplurdata-app     Up 2 hours     0.0.0.0:80->80/tcp
+```
+
+
+### Stream Live Logs
+
+```bash title="Stream Live Logs"
+# All containers
+docker compose logs -f
+
+# Specific container
+docker compose logs -f xplurdata-app
+docker compose logs -f otel-collector
+```
+
+
+### Restart Services
+
+```bash title="Restart Services"
+# Restart all
+docker compose restart
+
+# Restart specific service
+docker compose restart xplurdata-app
+```
+
+
+### Update to Latest Version
+
+```bash title="Update to Latest Version"
+docker compose pull
+docker compose up -d
+```
+
+
+### Full Uninstall
+
+```bash title="Full Uninstall"
+# Stop and remove containers + volumes (WARNING: deletes all data)
+docker compose down -v
+
+# Also remove images
+docker compose down -v --rmi all
+```
+
+
+:::caution
+
+Running docker compose down -v will permanently delete all telemetry data stored in Doris. Back up your data first if needed.
+
+:::
+

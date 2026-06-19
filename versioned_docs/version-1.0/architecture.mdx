@@ -1,0 +1,67 @@
+---
+id: architecture
+title: Architecture
+sidebar_position: 3
+slug: /architecture
+---
+
+> Four containers, one cohesive stack.
+
+XplurData is intentionally simple. Every component runs as a Docker container and communicates over an internal bridge network. There are no external dependencies — no managed databases, no cloud services, no API keys.
+
+
+:::info
+
+Images are loaded from the src path relative to docs.html. To add images to any page, add an "image" or "image-grid" section to docs.json — no code changes needed.
+
+:::
+
+
+### Architecture Overview
+
+:::note
+Add your architecture diagram at `static/img/architecture.png` — it will render here.
+:::
+*XplurData four-container architecture — OTel Collector → Doris → FastAPI → React UI*
+
+
+
+### System Diagram
+
+**Sources:** Your App (OTLP SDK) · telemetrygen · Any OTel Agent
+
+**Ingest:** OTel Collector :4318
+
+**Storage:** Doris FE (SQL router) · Doris BE (column store)
+
+**Frontend:** FastAPI REST :8000 · React UI :80
+
+
+### Network Ports
+
+| Port | Protocol | Used By | Description |
+| --- | --- | --- | --- |
+| 80 | HTTP | Browser | Web UI |
+| 4318 | HTTP | Your applications | OTLP HTTP endpoint |
+| 4317 | gRPC | Your applications | OTLP gRPC endpoint |
+| 9030 | TCP | Internal | Doris FE SQL port |
+| 8000 | HTTP | Internal | FastAPI backend |
+
+
+:::tip
+
+Only ports 80 and 4318 need to be exposed externally. All other inter-service communication happens on the internal Docker network.
+
+:::
+
+
+### UI Screenshots
+
+![Log Explorer](pathname://img-logs.png)
+
+*Log Explorer — filter, search and query logs*
+
+![User Management](pathname://img-users.png)
+
+*User Management — add and manage users*
+
