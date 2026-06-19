@@ -1,0 +1,48 @@
+{
+  "docsSidebar": [
+    {
+      "type": "doc",
+      "id": "introduction",
+      "label": "🏠 Introduction"
+    },
+    {
+      "type": "category",
+      "label": "Getting Started",
+      "collapsed": false,
+      "items": [
+        {
+          "type": "doc",
+          "id": "quick-install",
+          "label": "⚡ Quick Install"
+        },
+        {
+          "type": "doc",
+          "id": "architecture",
+          "label": "🏗 Architecture"
+        },
+        {
+          "type": "doc",
+          "id": "sending-logs",
+          "label": "📤 Sending Logs"
+        }
+      ]
+    },
+    {
+      "type": "category",
+      "label": "Operations",
+      "collapsed": false,
+      "items": [
+        {
+          "type": "doc",
+          "id": "management",
+          "label": "⚙️ Management"
+        },
+        {
+          "type": "doc",
+          "id": "troubleshooting",
+          "label": "🔧 Troubleshooting"
+        }
+      ]
+    }
+  ]
+}

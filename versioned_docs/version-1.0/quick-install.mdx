@@ -1,0 +1,53 @@
+---
+id: quick-install
+title: Quick Install
+sidebar_position: 2
+slug: /quick-install
+---
+
+> Get the full XplurData stack running with a single command.
+
+
+### System Requirements
+
+| Requirement | Value |
+|---|---|
+| **CPU** | 4+ cores (8 recommended) |
+| **RAM** | 8 GB minimum (16 GB recommended) |
+| **Disk** | 40 GB free (120 GB recommended) |
+| **OS** | Linux, macOS, or Windows (WSL2) |
+| **Ports** | 80 (Web UI), 4318 (OTLP HTTP) |
+
+
+### One-Line Install
+
+```bash title="One-Line Install"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/xd-internal/oss-stack/main/install.sh)"
+```
+
+
+### Docker Compose (Manual)
+
+```bash title="Docker Compose (Manual)"
+git clone https://github.com/xplurdata/xplurdata.git
+cd xplurdata
+docker compose up -d
+```
+
+
+:::info
+
+First boot takes 3–5 minutes while Apache Doris initialises. The Web UI will show a loading screen until the backend is ready.
+
+:::
+
+
+### What Gets Installed
+
+| Container | Image | Port | Purpose |
+| --- | --- | --- | --- |
+| doris-fe | apache/doris:fe-2.1 | 9030 | Doris Frontend — SQL router |
+| doris-be | apache/doris:be-2.1 | — | Doris Backend — data storage |
+| otel-collector | otel/opentelemetry-collector | 4318 | OTLP receiver |
+| xplurdata-app | xplurdata/app:latest | 80 | Web UI + REST API |
+
