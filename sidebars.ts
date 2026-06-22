@@ -1,29 +1,20 @@
 import type {SidebarsConfig} from '@docusaurus/plugin-content-docs';
 
 const sidebars: SidebarsConfig = {
-  docsSidebar: [
-    {
-      type: 'doc',
-      id: 'introduction',
-      label: '🏠 Introduction',
-    },
-    {
-      type: 'category',
-      label: 'Getting Started',
-      collapsed: false,
-      items: [
-        {type: 'doc', id: 'quick-install',  label: '⚡ Quick Install'},
-        {type: 'doc', id: 'architecture',   label: '🏗 Architecture'},
-        {type: 'doc', id: 'sending-logs',   label: '📤 Sending Logs'},
-      ],
-    },
+  docs: [
+    {type: 'doc', id: 'intro', label: 'Introduction'},
+    {type: 'doc', id: 'installation', label: 'Quick Install'},
+    {type: 'doc', id: 'architecture', label: 'Architecture'},
+    {type: 'doc', id: 'sending-logs', label: 'Sending Logs'},
+    {type: 'doc', id: 'management', label: 'Management'},
+    {type: 'doc', id: 'demo-data', label: 'Demo Data'},
+    {type: 'doc', id: 'troubleshooting', label: 'Troubleshooting'},
     {
       type: 'category',
-      label: 'Operations',
+      label: 'Observability',
       collapsed: false,
       items: [
-        {type: 'doc', id: 'management',      label: '⚙️ Management'},
-        {type: 'doc', id: 'troubleshooting', label: '🔧 Troubleshooting'},
+        {type: 'doc', id: 'smart-logs-explorer', label: 'Smart Logs Explorer'},
       ],
     },
   ],

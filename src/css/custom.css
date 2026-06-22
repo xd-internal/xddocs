@@ -1,156 +1,175 @@
-/* ============================================================
-   XplurData — Docusaurus Custom Theme
-   Brand: Primary green #06805f, accent blue #1B8AB5
-   ============================================================ */
+/**
+ * XplurData Docusaurus theme — aligned to the existing XplurData site (style.css).
+ * Tokens taken directly from the hand-built site:
+ *   cream #F5F2EA · deep-green #06805f · yellow #ffd23f · Inter + Fira Code
+ *   navy code #1a1f2e · 12px radius · cream sidebar w/ green active accents.
+ */
 
-/* ── Light mode ── */
+/* ---------- Light (matches site :root) ---------- */
 :root {
-  --ifm-color-primary:         #06805f;
-  --ifm-color-primary-dark:    #056e52;
-  --ifm-color-primary-darker:  #04664c;
-  --ifm-color-primary-darkest: #04543e;
-  --ifm-color-primary-light:   #07926c;
-  --ifm-color-primary-lighter: #089a73;
-  --ifm-color-primary-lightest:#0ab587;
-  --ifm-code-font-size:        93%;
-  --ifm-font-family-base:      'Inter', system-ui, -apple-system, sans-serif;
-  --ifm-font-family-monospace: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
-  --ifm-border-radius:         8px;
-  --ifm-navbar-height:         56px;
-  --ifm-navbar-shadow:         0 1px 0 rgba(0,0,0,0.08);
-  --docusaurus-highlighted-code-line-bg: rgba(6,128,95,0.08);
+  --ifm-color-primary: #06805f;
+  --ifm-color-primary-dark: #056d51;
+  --ifm-color-primary-darker: #056349;
+  --ifm-color-primary-darkest: #044f3b;
+  --ifm-color-primary-light: #079d75;
+  --ifm-color-primary-lighter: #09ba8a;
+  --ifm-color-primary-lightest: #16f4b8;
+
+  --xd-bg: #F5F2EA;
+  --xd-bg-secondary: #F0EDE3;
+  --xd-accent: #ffd23f;
+  --xd-accent-dark: #e6b800;
+  --xd-fg: #2C2820;
+  --xd-fg-muted: #6B6559;
+  --xd-fg-subtle: #9A9080;
+  --xd-border: #DDD8C8;
+  --xd-card: #FFFFFF;
+  --xd-code-bg: #1a1f2e;
+  --xd-code-fg: #e2f0ff;
+
+  --ifm-font-family-base: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+  --ifm-font-family-monospace: 'Fira Code', 'SFMono-Regular', Menlo, Consolas, monospace;
+  --ifm-heading-font-weight: 800;
+
+  --ifm-background-color: var(--xd-bg);
+  --ifm-background-surface-color: var(--xd-card);
+  --ifm-navbar-background-color: rgba(245, 242, 234, 0.9);
+  --ifm-footer-background-color: #efe9da;
+  --ifm-font-color-base: var(--xd-fg);
+  --ifm-heading-color: var(--xd-fg);
+  --ifm-toc-border-color: var(--xd-border);
+  --ifm-color-content-secondary: var(--xd-fg-muted);
+  --ifm-blockquote-color: var(--xd-fg-muted);
+
+  --ifm-global-radius: 12px;
+  --ifm-card-border-radius: 12px;
+  --ifm-button-border-radius: 8px;
+  --ifm-code-font-size: 0.9rem;
+  --ifm-navbar-height: 64px;
+  --doc-sidebar-width: 270px;
+  --ifm-menu-color-background-active: rgba(6, 128, 95, 0.06);
+
+  /* code blocks: always the site's dark navy */
+  --prism-background-color: var(--xd-code-bg);
+  --docusaurus-highlighted-code-line-bg: rgba(6, 128, 95, 0.18);
 }
 
-/* ── Dark mode ── */
+/* ---------- Dark (matches site [data-theme=dark]) ---------- */
 [data-theme='dark'] {
-  --ifm-color-primary:         #00c98a;
-  --ifm-color-primary-dark:    #00b37b;
-  --ifm-color-primary-darker:  #00a873;
-  --ifm-color-primary-darkest: #008a5e;
-  --ifm-color-primary-light:   #00df99;
-  --ifm-color-primary-lighter: #00e8a1;
-  --ifm-color-primary-lightest:#1febb0;
-  --ifm-background-color:      #0e1117;
-  --ifm-navbar-background-color: rgba(14,17,23,0.95);
-  --docusaurus-highlighted-code-line-bg: rgba(0,201,138,0.1);
+  --ifm-color-primary: hsl(162, 91%, 40%);
+  --ifm-color-primary-dark: hsl(162, 88%, 34%);
+  --ifm-color-primary-darker: hsl(162, 88%, 30%);
+  --ifm-color-primary-darkest: hsl(162, 88%, 24%);
+  --ifm-color-primary-light: hsl(162, 70%, 50%);
+  --ifm-color-primary-lighter: hsl(162, 70%, 58%);
+  --ifm-color-primary-lightest: hsl(162, 60%, 70%);
+
+  --xd-bg: hsl(223, 35%, 8%);
+  --xd-card: hsl(223, 28%, 12%);
+  --xd-border: hsl(223, 16%, 20%);
+  --xd-fg: hsl(210, 35%, 96%);
+  --xd-fg-muted: hsl(210, 15%, 65%);
+  --xd-code-bg: hsl(223, 35%, 6%);
+
+  --ifm-background-color: var(--xd-bg);
+  --ifm-background-surface-color: var(--xd-card);
+  --ifm-navbar-background-color: rgba(10, 13, 26, 0.92);
+  --ifm-footer-background-color: hsl(223, 30%, 10%);
+  --ifm-font-color-base: var(--xd-fg);
+  --ifm-heading-color: var(--xd-fg);
+  --ifm-toc-border-color: var(--xd-border);
+  --ifm-menu-color-background-active: rgba(8, 200, 120, 0.12);
 }
 
-/* ── Navbar ── */
-.navbar {
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+/* ---------- Sidebar (cream, green active w/ left border — matches docs.css) ---------- */
+.theme-doc-sidebar-container { border-right: 1px solid var(--xd-border); }
+.menu { background: transparent; font-weight: 500; padding: 0.75rem; }
+.menu__link {
+  color: var(--xd-fg-muted);
+  border-left: 2px solid transparent;
+  border-radius: 0 8px 8px 0;
+  font-size: 0.92rem;
 }
-.navbar__logo {
-  height: 26px;
-  width: auto;
-}
-.navbar__title {
-  font-weight: 800;
-  letter-spacing: -0.02em;
-}
-
-/* ── Sidebar ── */
+.menu__link:hover { color: var(--xd-fg); background: var(--xd-bg-secondary); }
 .menu__link--active:not(.menu__link--sublist) {
+  color: var(--ifm-color-primary);
   font-weight: 600;
-}
-.menu__list-item-collapsible {
-  font-weight: 700;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  opacity: 0.55;
+  border-left-color: var(--ifm-color-primary);
+  background: var(--ifm-menu-color-background-active);
 }
 
-/* ── Content ── */
-.markdown h1 {
-  font-weight: 900;
-  letter-spacing: -0.03em;
+/* ---------- Headings: tight-tracked bold Inter (matches landing) ---------- */
+.markdown h1 { font-size: 2.4rem; font-weight: 800; letter-spacing: -0.03em; }
+.markdown h2 { font-size: 1.7rem; font-weight: 800; letter-spacing: -0.02em; }
+.markdown h3 { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.01em; }
+
+/* ---------- Buttons ---------- */
+.button--primary { background: var(--ifm-color-primary); border-color: var(--ifm-color-primary); color: #fff; font-weight: 600; }
+.button--primary:hover { background: var(--ifm-color-primary-dark); border-color: var(--ifm-color-primary-dark); }
+.button--accent {
+  background: var(--xd-accent); border: 1px solid var(--xd-accent); color: #1a1a1a;
+  font-weight: 700; border-radius: 8px; padding: 13px 30px; transition: background .15s, transform .15s;
 }
-.markdown h2 {
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  border-bottom: 1px solid var(--ifm-color-emphasis-200);
-  padding-bottom: 8px;
-  margin-top: 48px;
+.button--accent:hover { background: var(--xd-accent-dark); color: #1a1a1a; transform: translateY(-1px); }
+
+/* ---------- Code blocks: always dark navy ---------- */
+.theme-code-block, div[class^='codeBlockContainer_'] { border-radius: 12px; }
+div[class^='codeBlockContainer_'] pre, pre[class*='language-'] {
+  background-color: var(--xd-code-bg) !important;
 }
-.markdown h3 {
-  font-weight: 700;
-  margin-top: 32px;
+div[class^='codeBlockTitle_'] {
+  background-color: #11151f !important; color: #c7d3e6; border-bottom: 1px solid #2a3142;
+}
+:not(pre) > code {
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: var(--ifm-color-primary-darkest);
+  font-size: 0.92em;
+}
+[data-theme='dark'] :not(pre) > code {
+  color: var(--ifm-color-primary-lighter);
 }
 
-/* ── Code blocks ── */
-.prism-code {
-  font-size: 13px !important;
-  border-radius: 10px !important;
-}
-div[class*='codeBlockContainer'] {
+/* ---------- Admonitions ---------- */
+.alert { border-left-width: 4px; border-radius: 8px; }
+
+/* ---------- Tables — clean, professional, full-width ---------- */
+.markdown table {
+  display: table;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 1.5rem 0;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  border: 1px solid var(--xd-border);
   border-radius: 10px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
-}
-[data-theme='dark'] div[class*='codeBlockContainer'] {
-  box-shadow: 0 2px 16px rgba(0,0,0,0.3);
-}
-
-/* ── Admonitions ── */
-.admonition {
-  border-radius: 8px;
-  border-left-width: 4px;
-}
-
-/* ── Tables ── */
-table {
-  border-radius: 8px;
   overflow: hidden;
-  font-size: 14px;
 }
-th {
-  font-size: 11px;
+.markdown table thead { background: var(--xd-bg-secondary); }
+.markdown table thead th {
+  text-align: left;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+  color: var(--xd-fg);
+  padding: 0.7rem 1rem;
+  border-bottom: 2px solid var(--xd-border);
+  white-space: nowrap;
 }
+.markdown table tbody td {
+  padding: 0.65rem 1rem;
+  border-top: 1px solid var(--xd-border);
+  vertical-align: top;
+}
+.markdown table tbody tr:first-child td { border-top: none; }
+.markdown table tbody tr:nth-child(even) { background: rgba(6, 128, 95, 0.025); }
+.markdown table tbody tr:hover { background: var(--ifm-menu-color-background-active); }
+[data-theme='dark'] .markdown table tbody tr:nth-child(even) { background: rgba(8, 200, 120, 0.05); }
+.markdown table td > code, .markdown table th > code { white-space: nowrap; }
 
-/* ── Footer ── */
-.footer {
-  border-top: 1px solid var(--ifm-color-emphasis-200);
+/* ---------- Eyebrow + tight display utilities for the landing ---------- */
+.xd-eyebrow {
+  text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700;
+  font-size: 0.8rem; color: var(--ifm-color-primary);
 }
-[data-theme='dark'] .footer {
-  border-top-color: rgba(255,255,255,0.06);
-}
-
-/* ── TOC ── */
-.table-of-contents__link:hover,
-.table-of-contents__link--active {
-  color: var(--ifm-color-primary);
-  font-weight: 600;
-}
-
-/* ── Intro page hero badge ── */
-blockquote {
-  border-left: 3px solid var(--ifm-color-primary);
-  background: rgba(6,128,95,0.04);
-  border-radius: 0 6px 6px 0;
-  font-weight: 600;
-  color: var(--ifm-color-primary);
-  font-size: 14px;
-}
-[data-theme='dark'] blockquote {
-  background: rgba(0,201,138,0.06);
-}
-
-/* ── Pagination ── */
-.pagination-nav__link {
-  border-radius: 10px;
-  transition: border-color 0.15s, box-shadow 0.15s;
-}
-.pagination-nav__link:hover {
-  border-color: var(--ifm-color-primary);
-  box-shadow: 0 0 0 2px rgba(6,128,95,0.12);
-}
-
-/* ── Mobile ── */
-@media (max-width: 768px) {
-  .markdown h1 { font-size: 1.8rem; }
-  .markdown h2 { font-size: 1.4rem; }
-  .prism-code  { font-size: 12px !important; }
-}
+.xd-display { font-weight: 800; letter-spacing: -0.03em; line-height: 1.04; }

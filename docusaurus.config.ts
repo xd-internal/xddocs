@@ -2,16 +2,26 @@ import {themes as prismThemes} from 'prism-react-renderer';
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
+// ─────────────────────────────────────────────────────────────────────────────
+// CHOOSE WHERE THE DOCS LIVE — edit `url` + `baseUrl` to match ONE row:
+//
+//   docs.xplurdata.com (custom subdomain, recommended):
+//     url='https://docs.xplurdata.com'      baseUrl='/'      (+ keep static/CNAME)
+//   xplurdata.github.io/oss-stack-docs/ (no DNS work):
+//     url='https://xplurdata.github.io'     baseUrl='/oss-stack-docs/'  (delete static/CNAME)
+// ─────────────────────────────────────────────────────────────────────────────
+
 const config: Config = {
   title: 'XplurData Docs',
-  tagline: 'Full Observability. Zero Vendor Lock-in.',
-  favicon: 'img/favicon.ico',
+  tagline: 'Self-hosted observability stack — ingest, store and explore your data at scale',
+  favicon: 'img/logo.svg',
 
-  url: 'https://xplurdata.io',
-  baseUrl: '/docs/',
+  url: 'https://docs.xplurdata.com',
+  baseUrl: '/',                      // site root; the /docs prefix comes from routeBasePath
 
-  organizationName: 'xplurdata',
-  projectName: 'xplurdata',
+  organizationName: 'xplurdata',   // GitHub org
+  projectName: 'oss-stack-docs',   // repo name
+  trailingSlash: false,
 
   onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
@@ -21,108 +31,39 @@ const config: Config = {
     locales: ['en'],
   },
 
+  // Fonts matching the XplurData site: Inter (body/UI) + Fira Code (mono).
+  stylesheets: [
+    'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500&display=swap',
+  ],
+
   presets: [
     [
       'classic',
       {
         docs: {
-          routeBasePath: '/',          // docs at /docs/ root, not /docs/docs/
+          routeBasePath: "/docs",            // docs served under /docs
           sidebarPath: './sidebars.ts',
-          editUrl: 'https://github.com/xplurdata/xplurdata/edit/main/website/',
-          showLastUpdateTime: false,
+          editUrl: 'https://github.com/xplurdata/oss-stack/tree/main/',
         },
-        blog: false,                   // no blog
+        blog: false,                          // docs-only site
         theme: {
-          customCss: './src/css/custom.css',
+          customCss: ['./src/css/custom.css', './src/css/chrome.css'],
         },
       } satisfies Preset.Options,
     ],
   ],
 
   themeConfig: {
-    image: 'img/xplurdata-social.png',
-
-    navbar: {
-      title: 'XplurData',
-      logo: {
-        alt: 'XplurData',
-        src: 'img/logo.svg',
-        href: 'https://xplurdata.io',
-        target: '_self',
-      },
-      items: [
-        {
-          type: 'docSidebar',
-          sidebarId: 'docsSidebar',
-          position: 'left',
-          label: 'Docs',
-        },
-        {
-          type: 'docsVersionDropdown',
-          versions: ['current', '1.0']
-        },
-        {
-          href: 'https://xplurdata.io',
-          label: '← Back to Site',
-          position: 'right',
-        },
-        {
-          href: 'https://github.com/xplurdata/xplurdata',
-          label: 'GitHub',
-          position: 'right',
-        },
-      ],
-    },
-
-    footer: {
-      style: 'dark',
-      links: [
-        {
-          title: 'Docs',
-          items: [
-            {label: 'Introduction',    to: '/'},
-            {label: 'Quick Install',   to: '/quick-install'},
-            {label: 'Architecture',    to: '/architecture'},
-            {label: 'Sending Logs',    to: '/sending-logs'},
-            {label: 'Management',      to: '/management'},
-            {label: 'Troubleshooting', to: '/troubleshooting'},
-          ],
-        },
-        {
-          title: 'Community',
-          items: [
-            {label: 'GitHub',    href: 'https://github.com/xplurdata/xplurdata'},
-            {label: 'LinkedIn',  href: 'https://linkedin.com/company/xplurdata'},
-            {label: 'Slack',     href: 'https://join.slack.com/t/xplurdata/shared_invite'},
-            {label: 'Twitter/X', href: 'https://twitter.com/xplurdata'},
-          ],
-        },
-        {
-          title: 'XplurData',
-          items: [
-            {label: 'Website',     href: 'https://xplurdata.io'},
-            {label: 'Contact',     href: 'https://xplurdata.io#contact'},
-            {label: 'Roadmap',     href: 'https://xplurdata.io#roadmap'},
-            {label: 'Report Issue', href: 'https://github.com/xplurdata/xplurdata/issues'},
-          ],
-        },
-      ],
-      copyright: `Copyright © ${new Date().getFullYear()} XplurData. Apache-2.0 License.`,
-    },
-
-    prism: {
-      theme: prismThemes.github,
-      darkTheme: prismThemes.dracula,
-      additionalLanguages: ['bash', 'sql', 'yaml', 'python', 'java', 'go', 'javascript'],
-    },
-
+    image: 'img/social-card.png',
     colorMode: {
       defaultMode: 'light',
-      disableSwitch: false,
       respectPrefersColorScheme: true,
     },
-
-    algolia: undefined,   // plug in your Algolia keys here when ready
+    prism: {
+      theme: prismThemes.oneDark,
+      darkTheme: prismThemes.oneDark,
+      additionalLanguages: ['bash', 'go', 'java', 'ruby', 'php', 'rust', 'toml', 'csharp'],
+    },
   } satisfies Preset.ThemeConfig,
 };
 

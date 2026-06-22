@@ -1,126 +1,150 @@
 ---
 id: sending-logs
 title: Sending Logs
-sidebar_position: 4
-slug: /sending-logs
+sidebar_position: 3
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-> Ship telemetry from any language or tool to XplurData.
+# Sending Logs
 
+All logs are received over **OTLP/HTTP** at `http://<your-ip>:4318`. Replace `<your-ip>`
+with the address of the machine running the stack (use `localhost` if it's the same machine).
 
-### SDK Examples
+## Quick test with `telemetrygen`
 
-<Tabs>
-  <TabItem value="python" label="Python">
-
-```python
-pip install opentelemetry-sdk opentelemetry-exporter-otlp
-
-# instrument.py
-from opentelemetry import trace
-from opentelemetry.sdk.trace import TracerProvider
-from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
-from opentelemetry.sdk.trace.export import BatchSpanProcessor
-
-provider = TracerProvider()
-exporter = OTLPSpanExporter(
-    endpoint="http://`<YOUR_HOST>`:4318/v1/traces"
-)
-provider.add_span_processor(BatchSpanProcessor(exporter))
-trace.set_tracer_provider(provider)
-
-tracer = trace.get_tracer("my-service")
-with tracer.start_as_current_span("my-operation"):
-    print("Hello, XplurData!")
-```
-
-  </TabItem>
-  <TabItem value="node-js" label="Node.js">
-
-```javascript
-npm install @opentelemetry/sdk-node @opentelemetry/exporter-trace-otlp-http
-
-// tracing.js
-const { NodeSDK } = require('@opentelemetry/sdk-node')
-const { OTLPTraceExporter } = require('@opentelemetry/exporter-trace-otlp-http')
-
-const sdk = new NodeSDK({
-  serviceName: 'my-service',
-  traceExporter: new OTLPTraceExporter({
-    url: 'http://`<YOUR_HOST>`:4318/v1/traces',
-  }),
-})
-sdk.start()
-```
-
-  </TabItem>
-  <TabItem value="java" label="Java">
+Generate synthetic logs without touching your app — useful to confirm the pipeline works
+end to end:
 
 ```bash
-# Download the Java agent (zero-code instrumentation)
-wget https://github.com/open-telemetry/opentelemetry-java-instrumentation\
-  /releases/latest/download/opentelemetry-javaagent.jar
-
-# Run your app with the agent
-java -javaagent:opentelemetry-javaagent.jar \
-  -Dotel.service.name=my-service \
-  -Dotel.exporter.otlp.endpoint=http://`<YOUR_HOST>`:4318 \
-  -jar app.jar
-```
-
-  </TabItem>
-  <TabItem value="go" label="Go">
-
-```go
-go get go.opentelemetry.io/otel \
-       go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp
-
-// main.go
-exp, _ := otlptracehttp.New(ctx,
-    otlptracehttp.WithEndpoint("`<YOUR_HOST>`:4318"),
-    otlptracehttp.WithInsecure(),
-)
-tp := trace.NewTracerProvider(
-    trace.WithBatcher(exp),
-    trace.WithResource(resource.NewWithAttributes(
-        semconv.SchemaURL,
-        semconv.ServiceNameKey.String("my-service"),
-    )),
-)
-otel.SetTracerProvider(tp)
-```
-
-  </TabItem>
-  <TabItem value="telemetrygen" label="telemetrygen">
-
-```bash
-# Install telemetrygen
-go install github.com/open-telemetry/opentelemetry-collector-contrib/cmd/telemetrygen@latest
-
-# Send 1000 log records
-telemetrygen logs \
-  --otlp-endpoint `<YOUR_HOST>`:4318 \
+docker run --rm \
+  --network xplurdata_otel-net \
+  ghcr.io/open-telemetry/opentelemetry-collector-contrib/telemetrygen:latest \
+  logs \
+  --otlp-endpoint otel-collector:4318 \
+  --otlp-http \
   --otlp-insecure \
   --duration 10s \
-  --rate 100
-
-# Send traces
-telemetrygen traces \
-  --otlp-endpoint `<YOUR_HOST>`:4318 \
-  --otlp-insecure \
-  --duration 10s
+  --rate 100 \
+  --service my-service
 ```
 
-  </TabItem>
+Within a few seconds you should see records appear in the Web UI.
+
+## Send logs from your application
+
+Every OpenTelemetry SDK reads the same standard environment variables. Set these once and
+the SDK exports to your stack:
+
+```bash
+export OTEL_EXPORTER_OTLP_ENDPOINT="http://<your-ip>:4318"
+export OTEL_EXPORTER_OTLP_PROTOCOL="http/protobuf"
+export OTEL_SERVICE_NAME="my-service"
+export OTEL_LOGS_EXPORTER="otlp"
+```
+
+Then wire up the SDK for your language:
+
+<Tabs groupId="lang">
+<TabItem value="python" label="Python" default>
+
+```bash
+pip install opentelemetry-distro opentelemetry-exporter-otlp
+opentelemetry-bootstrap -a install
+```
+
+Run your app with auto-instrumentation — logs, traces, and metrics export automatically:
+
+```bash
+opentelemetry-instrument python app.py
+```
+
+</TabItem>
+<TabItem value="node" label="Node.js">
+
+```bash
+npm install @opentelemetry/api \
+  @opentelemetry/auto-instrumentations-node \
+  @opentelemetry/exporter-logs-otlp-http
+```
+
+```bash
+node --require @opentelemetry/auto-instrumentations-node/register app.js
+```
+
+</TabItem>
+<TabItem value="java" label="Java">
+
+Download the OpenTelemetry Java agent and attach it at startup — zero code changes:
+
+```bash
+curl -L -o opentelemetry-javaagent.jar \
+  https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/latest/download/opentelemetry-javaagent.jar
+
+java -javaagent:./opentelemetry-javaagent.jar -jar app.jar
+```
+
+</TabItem>
+<TabItem value="go" label="Go">
+
+```bash
+go get go.opentelemetry.io/otel \
+  go.opentelemetry.io/otel/exporters/otlp/otlplog/otlploghttp \
+  go.opentelemetry.io/otel/sdk/log
+```
+
+Initialise the OTLP log exporter from the `OTEL_EXPORTER_OTLP_ENDPOINT` env var and attach
+it to a `log.LoggerProvider` in your `main()`.
+
+</TabItem>
+<TabItem value="dotnet" label=".NET">
+
+```bash
+dotnet add package OpenTelemetry.Extensions.Hosting
+dotnet add package OpenTelemetry.Exporter.OpenTelemetryProtocol
+```
+
+Register OpenTelemetry logging in `Program.cs` with `.AddOtlpExporter()`; it reads the
+standard `OTEL_*` environment variables.
+
+</TabItem>
+<TabItem value="ruby" label="Ruby">
+
+```bash
+bundle add opentelemetry-sdk opentelemetry-exporter-otlp opentelemetry-instrumentation-all
+```
+
+Call `OpenTelemetry::SDK.configure { |c| c.use_all }` during boot; the OTLP exporter
+picks up the `OTEL_*` env vars.
+
+</TabItem>
+<TabItem value="php" label="PHP">
+
+```bash
+composer require open-telemetry/sdk open-telemetry/exporter-otlp
+```
+
+Configure the OTLP log exporter pointing at `OTEL_EXPORTER_OTLP_ENDPOINT`.
+
+</TabItem>
+<TabItem value="rust" label="Rust">
+
+```toml
+# Cargo.toml
+[dependencies]
+opentelemetry = "0.24"
+opentelemetry-otlp = { version = "0.17", features = ["logs", "http-proto"] }
+opentelemetry_sdk = { version = "0.24", features = ["logs"] }
+```
+
+Build an OTLP log exporter with the HTTP transport and install it as a global logger.
+
+</TabItem>
 </Tabs>
 
-
-:::info
-
-Replace `<YOUR_HOST>` with your server's IP address or hostname. Use port 4318 for HTTP and 4317 for gRPC.
-
+:::note
+The install + run snippets above are the standard OpenTelemetry starting points. Because all
+SDKs honour the `OTEL_*` environment variables, the same endpoint configuration works for
+every language.
 :::
-
