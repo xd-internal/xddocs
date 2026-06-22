@@ -16,8 +16,8 @@ const config: Config = {
   tagline: 'Self-hosted observability stack — ingest, store and explore your data at scale',
   favicon: 'img/logo.svg',
 
-  url: 'https://docs.xplurdata.com',
-  baseUrl: '/',                      // site root; the /docs prefix comes from routeBasePath
+  url: 'https://xplurdata.io',
+  baseUrl: '/xddocs/',
 
   organizationName: 'xplurdata',   // GitHub org
   projectName: 'oss-stack-docs',   // repo name
